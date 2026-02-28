@@ -44,7 +44,7 @@ class AIClient:
             "total_latency_ms": 0,
         }
 
-    def send_prompt(self, prompt, retries=3):
+    def send_prompt(self, prompt, retries=1):
 
         self.telemetry["total_requests"] += 1
         request_start = time.time()
