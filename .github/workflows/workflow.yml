@@ -32,10 +32,14 @@ jobs:
       - name: Add project to PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:." >> $GITHUB_ENV
 
+      - name: Set env variables
+        run: echo "API_TOKEN=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+
+
 
       - name: Run tests and create report
         run: |
-          pytest -v --junitxml=report.xml --html=report.html
+          pytest -v --html=report.html
 
 
       - name: Upload test artifacts
