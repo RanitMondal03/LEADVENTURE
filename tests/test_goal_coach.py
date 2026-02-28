@@ -8,6 +8,7 @@ def coach():
     return GoalCoach()
 
 
+@pytest.mark.smoke
 def test_valid_goal(coach):
 
     result = coach.make_goal("I want to improve in marks in Maths")
@@ -21,6 +22,7 @@ def test_valid_goal(coach):
     assert 1 <= result["confidence_score"] <= 10
 
 
+@pytest.mark.sanity
 def test_key_results_count(coach):
 
     result = coach.make_goal("I want to get fit")
@@ -30,6 +32,7 @@ def test_key_results_count(coach):
     assert 3 <= len(result["key_results"]) <= 5
 
 
+@pytest.mark.sanity
 def test_confidence_for_nonsense(coach):
 
     result = coach.make_goal("asdfghjkl qwerty 123")
@@ -37,6 +40,7 @@ def test_confidence_for_nonsense(coach):
     assert result["confidence_score"] <= 3
 
 
+@pytest.mark.sanity
 def test_empty_input(coach):
 
     result = coach.make_goal("")
@@ -44,6 +48,7 @@ def test_empty_input(coach):
     assert result["confidence_score"] <= 3
 
 
+@pytest.mark.smoke
 def test_multiple_inputs(coach):
 
     goals = [

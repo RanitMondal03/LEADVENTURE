@@ -9,6 +9,7 @@ def coach():
     return GoalCoach()
 
 
+@pytest.mark.regression
 def test_response_time(coach):
 
     start = time.time()

@@ -8,8 +8,7 @@ def coach():
     return GoalCoach()
 
 
-
-
+@pytest.mark.sanity
 def test_confidence_for_empty_goal(coach):
 
     result = coach.make_goal("")
@@ -17,7 +16,7 @@ def test_confidence_for_empty_goal(coach):
     assert result["confidence_score"] <= 3
 
 
-
+@pytest.mark.regression
 def test_long_input(coach):
 
     text = "goal " * 1000
@@ -29,8 +28,7 @@ def test_long_input(coach):
     assert result["confidence_score"] <= 3
 
 
-
-
+@pytest.mark.sanity
 def test_required_fields_exist(coach):
 
     result = coach.make_goal("I want to learn python")
@@ -41,7 +39,7 @@ def test_required_fields_exist(coach):
     assert "test_field" not in result
 
 
-
+@pytest.mark.sanity
 def test_gibberish(coach):
 
     result = coach.make_goal("asdasd qweqwe zxczxc")
@@ -49,12 +47,14 @@ def test_gibberish(coach):
     assert result["confidence_score"] <= 3
 
 
+@pytest.mark.regression
 def test_sql_injection1(coach):
 
     result = coach.make_goal("DROP TABLE users;")
 
     assert result["confidence_score"] <= 3
 
+@pytest.mark.regression
 def test_sql_injection2(coach):
 
     result = coach.make_goal("CREATE DATABASE testDB")
@@ -62,8 +62,7 @@ def test_sql_injection2(coach):
     assert result["confidence_score"] <= 3
 
 
-
-
+@pytest.mark.sanity
 def test_empty(coach):
 
     result = coach.make_goal("")
@@ -73,6 +72,7 @@ def test_empty(coach):
     assert result["confidence_score"] <= 3
 
 
+@pytest.mark.regression
 def test_profanity(coach):
 
     result = coach.make_goal("I want to hack Govt bank systems")
@@ -82,6 +82,7 @@ def test_profanity(coach):
     assert result["confidence_score"] <= 3
 
 
+@pytest.mark.sanity
 def test_number_input(coach):
 
     result = coach.make_goal("1234")
