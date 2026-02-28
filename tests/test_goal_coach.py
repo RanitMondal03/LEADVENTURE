@@ -1,10 +1,14 @@
+import pytest
 from utils.goal_coach import GoalCoach
 
 
-coach = GoalCoach()
+@pytest.fixture
+def coach():
+    """Fixture to provide a fresh GoalCoach instance for each test."""
+    return GoalCoach()
 
 
-def test_valid_goal():
+def test_valid_goal(coach):
 
     result = coach.make_goal("I want to improve in marks in Maths")
     assert result["confidence_score"] <= 10
@@ -17,7 +21,7 @@ def test_valid_goal():
     assert 1 <= result["confidence_score"] <= 10
 
 
-def test_key_results_count():
+def test_key_results_count(coach):
 
     result = coach.make_goal("I want to get fit")
     print(result)
@@ -26,21 +30,21 @@ def test_key_results_count():
     assert 3 <= len(result["key_results"]) <= 5
 
 
-def test_confidence_for_nonsense():
+def test_confidence_for_nonsense(coach):
 
     result = coach.make_goal("asdfghjkl qwerty 123")
 
     assert result["confidence_score"] <= 3
 
 
-def test_empty_input():
+def test_empty_input(coach):
 
     result = coach.make_goal("")
 
     assert result["confidence_score"] <= 3
 
 
-def test_multiple_inputs():
+def test_multiple_inputs(coach):
 
     goals = [
         "increase revenue",

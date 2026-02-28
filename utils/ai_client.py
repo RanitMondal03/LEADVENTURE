@@ -1,19 +1,41 @@
-# utils/ai_client.py
-
 from openai import OpenAI
 import time
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class AIClient:
 
-    def __init__(self):
+    def __init__(self, base_url: str | None = None, model: str | None = None):
+        """Initialize the AI client.
+
+        Args:
+            base_url: URL of the AI endpoint (will also read AI_BASE_URL env variable).
+            model: Model identifier to use (will also read AI_MODEL env variable).
+        """
+        API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+        if not API_KEY:
+            raise ValueError("HUGGINGFACE_API_KEY environment variable not set.")
+
+        # base_url = base_url or os.getenv("AI_BASE_URL", "https://router.huggingface.co/v1")
+        # # model = model or os.getenv("AI_MODEL", "openai/gpt-oss-20b")
+        # model = model or os.getenv("AI_MODEL", "Qwen/Qwen3.5-397B-A17B:novita")
+
+        base_url = base_url or os.getenv("AI_BASE_URL")
+        model = model or os.getenv("AI_MODEL")
+        # model = model or os.getenv("AI_MODEL", "Qwen/Qwen3.5-397B-A17B:novita")
+
+        
 
         self.client = OpenAI(
-            base_url="https://router.huggingface.co/v1",
-            api_key="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"
+            base_url=base_url,
+            api_key=API_KEY
         )
 
-        self.model = "openai/gpt-oss-20b"
+        self.model = model
         self.telemetry = {
             "total_requests": 0,
             "successful_requests": 0,
@@ -36,7 +58,8 @@ class AIClient:
                     messages=[
                         {
                             "role": "system",
-                            "content": "You are a strict JSON API. Always return valid JSON only."
+                            "content": "You are a strict JSON API. Always return valid JSON only. DO not add any other extra items in the response. "
+                                       "Only RETURN the JSON"
                         },
                         {
                             "role": "user",

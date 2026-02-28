@@ -48,18 +48,30 @@ pip install pytest openai jsonschema
 
 ## AI Endpoint Used
 
-This project uses a public AI endpoint via HuggingFace router.
+This project uses a public AI endpoint via HuggingFace router by default.
 
-Model:
+Model and endpoint are configurable via environment variables or `AIClient` constructor.
 
-openai/gpt-oss-20b
+Default values:
 
-Base URL:
+- Model: `openai/gpt-oss-20b`
+- Base URL: `https://router.huggingface.co/v1`
 
-https://router.huggingface.co/v1
+To switch models or providers, set the following environment variables before running tests or instantiating the client:
 
+```bash
+export AI_MODEL="other-model-name"
+export AI_BASE_URL="https://api.otherprovider.com/v1"
+```
 
-API key is configured inside ai_client.py.
+or pass arguments directly:
+
+```python
+from utils.ai_client import AIClient
+client = AIClient(base_url="https://api.other.com", model="my-model")
+```
+
+API key is still read from `HUGGINGFACE_API_KEY` (see `.env.example`).
 
 
 --------------------------------------------------

@@ -1,24 +1,27 @@
 import time
-from unittest import result
-
+import pytest
 from utils.goal_coach import GoalCoach
 
-coach = GoalCoach()
+
+@pytest.fixture
+def coach():
+    """Fixture to provide a fresh GoalCoach instance for each test."""
+    return GoalCoach()
 
 
-def test_response_time():
+def test_response_time(coach):
 
     start = time.time()
 
-    result: object  =  coach.make_goal("Improve sales")
+    response = coach.make_goal("Improve sales")
 
 
     end = time.time()
 
     assert end - start < 10
-    print(result)
+    print(response)
 
 
-    print(f"SRART TIME IS {start}    ------     END TIME IS  {end}")
+    print(f"START TIME IS {start}    ------     END TIME IS  {end}")
     print(f"TOTAL TIME IS {end-start}")
 

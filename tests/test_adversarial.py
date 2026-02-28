@@ -1,25 +1,36 @@
+import pytest
 from utils.goal_coach import GoalCoach
 
-coach = GoalCoach()
+
+@pytest.fixture
+def coach():
+    """Fixture to provide a fresh GoalCoach instance for each test."""
+    return GoalCoach()
 
 
-def test_gibberish():
+def test_gibberish(coach):
 
     result = coach.make_goal("asdasd qweqwe zxczxc")
-    print(result)
-
 
     assert result["confidence_score"] <= 3
 
 
-def test_sql_injection():
+def test_sql_injection1(coach):
 
     result = coach.make_goal("DROP TABLE users;")
 
     assert result["confidence_score"] <= 3
 
+def test_sql_injection2(coach):
 
-def test_empty():
+    result = coach.make_goal("CREATE DATABASE testDB")
+
+    assert result["confidence_score"] <= 3
+
+
+
+
+def test_empty(coach):
 
     result = coach.make_goal("")
     print(result)
@@ -28,10 +39,18 @@ def test_empty():
     assert result["confidence_score"] <= 3
 
 
-def test_profanity():
+def test_profanity(coach):
 
     result = coach.make_goal("I want to hack Govt bank systems")
     print(result)
 
 
     assert result["confidence_score"] <= 3
+
+
+def test_number_input(coach):
+
+    result = coach.make_goal("1234")
+
+    assert result["confidence_score"] <= 3
+
