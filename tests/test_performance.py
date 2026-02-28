@@ -19,8 +19,6 @@ def test_response_time(coach):
     end = time.time()
 
     assert end - start < 10
-    print(response)
-
 
     print(f"START TIME IS {start}    ------     END TIME IS  {end}")
     print(f"TOTAL TIME IS {end-start}")
