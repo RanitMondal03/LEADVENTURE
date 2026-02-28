@@ -32,7 +32,7 @@ jobs:
       - name: Add project to PYTHONPATH
         run: echo "PYTHONPATH=$PYTHONPATH:." >> $GITHUB_ENV
 
-      - name: Set env variables
+      - name: Set env variablessss
         run: echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
 
 
