@@ -33,7 +33,9 @@ jobs:
         run: echo "PYTHONPATH=$PYTHONPATH:." >> $GITHUB_ENV
 
       - name: Set env variablessss
-        run: echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+        run:  echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+              echo "AI_BASE_URL=${{ secrets.AI_BASE_URL }}" >> $GITHUB_ENV
+              echo "AI_MODEL=${{ secrets.AI_MODEL }}" >> $GITHUB_ENV
 
 
 
