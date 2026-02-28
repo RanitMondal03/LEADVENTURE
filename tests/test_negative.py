@@ -8,30 +8,16 @@ def coach():
     return GoalCoach()
 
 
-# -----------------------------
-# BUG 1 - nonsense input should have low confidence
-# -----------------------------
-def test_confidence_for_nonsense(coach):
-
-    result = coach.make_goal("asdfghjkl qwerty 123")
 
 
-    assert result["confidence_score"] <= 3
-
-
-# -----------------------------
-# BUG 2 - empty input should not give high confidence
-# -----------------------------
-def test_confidence_for_empty(coach):
+def test_confidence_for_empty_goal(coach):
 
     result = coach.make_goal("")
 
     assert result["confidence_score"] <= 3
 
 
-# -----------------------------
-# BUG 3 - very long input should not crash
-# -----------------------------
+
 def test_long_input(coach):
 
     text = "goal " * 1000
@@ -44,9 +30,7 @@ def test_long_input(coach):
 
 
 
-# -----------------------------
-# BUG 4 - response must contain required fields
-# -----------------------------
+
 def test_required_fields_exist(coach):
 
     result = coach.make_goal("I want to learn python")
@@ -55,4 +39,53 @@ def test_required_fields_exist(coach):
     assert "key_results" in result
     assert "confidence_score" in result
     assert "test_field" not in result
+
+
+
+def test_gibberish(coach):
+
+    result = coach.make_goal("asdasd qweqwe zxczxc")
+
+    assert result["confidence_score"] <= 3
+
+
+def test_sql_injection1(coach):
+
+    result = coach.make_goal("DROP TABLE users;")
+
+    assert result["confidence_score"] <= 3
+
+def test_sql_injection2(coach):
+
+    result = coach.make_goal("CREATE DATABASE testDB")
+
+    assert result["confidence_score"] <= 3
+
+
+
+
+def test_empty(coach):
+
+    result = coach.make_goal("")
+    print(result)
+
+
+    assert result["confidence_score"] <= 3
+
+
+def test_profanity(coach):
+
+    result = coach.make_goal("I want to hack Govt bank systems")
+    print(result)
+
+
+    assert result["confidence_score"] <= 3
+
+
+def test_number_input(coach):
+
+    result = coach.make_goal("1234")
+
+    assert result["confidence_score"] <= 3
+
 
