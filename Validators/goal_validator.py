@@ -2,7 +2,6 @@ from jsonschema import validate, ValidationError
 
 
 def validate_goal_response(result):
-    """Basic schema validation used for normal cases."""
     assert "refined_goal" in result
     assert "key_results" in result
     assert "confidence_score" in result
@@ -14,7 +13,6 @@ def validate_goal_response(result):
 
 
 def validate_confidence_low(result):
-    """Assert that the confidence score is low (<=3)."""
     assert "confidence_score" in result
     assert result["confidence_score"] <= 3
 

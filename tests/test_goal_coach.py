@@ -19,7 +19,7 @@ def test_valid_goal(coach):
 @pytest.mark.sanity
 def test_key_results_count(coach):
 
-    result = coach.make_goal("I want to get fit")
+    result = coach.make_goal("I want to get fit and ripped")
 
     validate_goal_response(result)
 

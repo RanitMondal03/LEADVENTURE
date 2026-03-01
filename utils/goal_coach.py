@@ -1,5 +1,3 @@
-# goal_coach/goal_coach.py
-
 import json
 from utils.ai_client import AIClient
 
