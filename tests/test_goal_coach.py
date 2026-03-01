@@ -29,22 +29,6 @@ def test_key_results_count(coach):
     assert 3 <= len(result["key_results"]) <= 5
 
 
-@pytest.mark.sanity
-# def test_confidence_for_nonsense_goal(coach):
-#
-#     result = coach.make_goal("asdfghjkl qwerty 123")
-#
-#     assert result["confidence_score"] <= 3
-#
-
-# @pytest.mark.sanity
-# def test_empty_input(coach):
-#
-#     result = coach.make_goal("")
-#
-#     assert result["confidence_score"] <= 3
-#
-
 @pytest.mark.smoke
 def test_multiple_inputs(coach):
 

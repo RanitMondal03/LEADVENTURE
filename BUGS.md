@@ -2,7 +2,8 @@
 
 This document lists simulated and potential bugs found while testing the AI Goal Coach system.
 
-Each bug includes reproduction steps, expected result, actual result, severity, and how automated tests detect it.
+Each bug includes reproduction steps, expected result, actual result, severity, and how automated tests detect it.  
+Most of the reproduction tests now live in `tests/test_bugs.py` so they stay separate from the normal suite.
 
 
 --------------------------------------------------
@@ -46,10 +47,10 @@ High
 
 ### Detected By
 
-test_schema_validation  
-test_valid_goal  
+`tests/test_bugs.py::test_bug_1_invalid_json_parsing`  
+(or any smoke/schema test that attempts to load the output)
 
-JSON parsing fails → test fails
+JSON parsing error is exercised by the dedicated bug test.
 
 
 --------------------------------------------------
@@ -85,10 +86,8 @@ Medium
 
 ### Detected By
 
-test_schema_validation  
-test_key_results_count  
-
-Schema validation fails.
+`tests/test_bugs.py::test_bug_2_insufficient_key_results`  
+and `test_bug_2_excessive_key_results` (also `test_schema_validation` in normal suite)
 
 
 --------------------------------------------------
@@ -125,11 +124,8 @@ High
 
 ### Detected By
 
-test_gibberish  
-test_empty  
-test_sql_injection  
-
-Confidence validation fails.
+`tests/test_bugs.py::test_bug_3_hallucinated_goal_gibberish` and
+`test_bug_3_hallucinated_goal_random_text` (sanity tests also exercise similar cases).
 
 
 --------------------------------------------------
@@ -162,9 +158,8 @@ Medium
 
 ### Detected By
 
-test_schema_validation
-
-Schema rule fails.
+`tests/test_bugs.py::test_bug_4_confidence_too_high` and
+`test_bug_4_confidence_too_low` (schema tests in normal suite also cover range).
 
 
 --------------------------------------------------
@@ -191,9 +186,7 @@ Medium
 
 ### Detected By
 
-Retry logic in AIClient
-
-Test fails if retry not implemented.
+`tests/test_bugs.py::test_bug_5_api_failure_handling` (regression test exercises retry).
 
 
 --------------------------------------------------
@@ -331,11 +324,11 @@ This removes backticks but not the `json` language tag.
 
 ### Detected By
 
-**Regression test** (add to test suite):
+**Regression tests** are located in `tests/test_bugs.py`:
 
 ```python
 @pytest.mark.regression
-def test_handles_json_code_block_with_language_tag(coach):
+def test_bug_7_json_code_block_with_language_tag(coach):
     """Test that JSON inside ```json ... ``` is parsed correctly."""
     mock_response = '''```json
 {
@@ -409,11 +402,11 @@ Telemetry counting assumptions are unclear. See `ai_client.py` lines 50-75.
 
 ### Detected By
 
-**Regression test** (telemetry validation):
+**Regression tests** for telemetry can be found in `tests/test_bugs.py`:
 
 ```python
 @pytest.mark.regression
-def test_telemetry_counts_retries_correctly(monkeypatch):
+def test_bug_8_telemetry_structure(monkeypatch):
     """Verify retry telemetry is accurate."""
     
     coach = GoalCoach()
