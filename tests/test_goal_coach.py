@@ -1,5 +1,6 @@
 import pytest
 from utils.goal_coach import GoalCoach
+from Validators.goal_validator import validate_goal_response
 
 
 @pytest.fixture
@@ -11,14 +12,8 @@ def coach():
 def test_valid_goal(coach):
 
     result = coach.make_goal("I want to improve in marks in Maths")
-    assert result["confidence_score"] <= 10
 
-    assert "refined_goal" in result
-    assert "key_results" in result
-    assert "confidence_score" in result
-
-    assert isinstance(result["key_results"], list)
-    assert 1 <= result["confidence_score"] <= 10
+    validate_goal_response(result)
 
 
 @pytest.mark.sanity
@@ -26,7 +21,7 @@ def test_key_results_count(coach):
 
     result = coach.make_goal("I want to get fit")
 
-    assert 3 <= len(result["key_results"]) <= 5
+    validate_goal_response(result)
 
 
 @pytest.mark.smoke
@@ -40,4 +35,5 @@ def test_multiple_inputs(coach):
 
     for g in goals:
         result = coach.make_goal(g)
-        assert "refined_goal" in result
+
+        validate_goal_response(result)
