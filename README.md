@@ -10,10 +10,25 @@ This project tests the system for correctness, schema validation, adversarial in
 --------------------------------------------------
 
 ## Project Structure
+```
 
-goal_coach/
+└── 📁tests
+    ├── test_bug.py
+    ├── test_goal_coach.py
+    ├── test_negative.py
+    ├── test_performance.py
+    └── test_schema.py
+└── 📁utils
+    ├── ai_client.py
+    └── goal_coach.py    
+└── 📁Validators
+    ├── fake_response.py
+    └── goal_validator.py
+```
+coach/
 utils/
 tests/
+Validators/goal_
 TEST_STRATEGY.md
 BUGS.md
 README.md
@@ -130,25 +145,7 @@ In CI pipeline:
 pip install -r requirements.txt
 pytest -v
 
-Future improvements:
 
-- GitHub Actions
-- Docker container
-- Parallel tests
-- Mock AI server
-
-
---------------------------------------------------
-
-## How to Extend
-
-Possible improvements:
-
-- Add mock AI server
-- Add load testing
-- Add snapshot testing
-- Add contract tests
-- Add telemetry logs
 
 
 --------------------------------------------------
@@ -156,4 +153,3 @@ Possible improvements:
 ## Author
 
 Ranit Mondal  
-Senior SDET Candidate — AI Accelerator Challenge

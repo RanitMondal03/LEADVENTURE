@@ -28,12 +28,13 @@ This design proves that the same validation logic used in normal tests will fail
 AI returns fields with incorrect data types.
 
 ### Fake Response
-
+```json
 {
 "refined_goal": 123,
 "key_results": "not a list",
 "confidence_score": "high"
 }
+```
 
 ### Expected Result
 
@@ -51,12 +52,12 @@ High
 
 ### Detected By
 
-tests/test_bugs.py::test_bug_wrong_type
+`tests/test_bugs.py::test_bug_wrong_type
+`
 
 Validation used:
-
-assert_valid_goal_schema()
-
+`assert_valid_goal_schema()
+`
 ---
 
 ## Bug 2 — Missing required field
@@ -67,14 +68,16 @@ AI response is missing required field.
 
 ### Fake Response
 
+```json
 {
 "refined_goal": "test",
 "confidence_score": 5
 }
 
-Missing:
+```
 
-key_results
+Missing:
+`key_results`
 
 ### Expected Result
 
@@ -90,11 +93,10 @@ High
 
 ### Detected By
 
-tests/test_bugs.py::test_bug_missing_field
+`tests/test_bugs.py::test_bug_missing_field
+`
 
-Validation used:
-
-assert_valid_goal_schema()
+Validation used: `assert_valid_goal_schema()`
 
 ---
 
@@ -105,12 +107,14 @@ assert_valid_goal_schema()
 AI returns more than allowed number of key results.
 
 ### Fake Response
-
+```json
 {
 "refined_goal": "test",
 "key_results": ["a","b","c","d","e","f"],
 "confidence_score": 5
 }
+```
+
 
 ### Expected Result
 
@@ -126,12 +130,11 @@ Medium
 
 ### Detected By
 
-tests/test_bugs.py::test_bug_too_many_results
-
+**`tests/test_bugs.py::test_bug_too_many_results**
+`
 Validation used:
-
-validate_goal_response()
-
+`validate_goal_response()
+`
 ---
 
 ## Bug 4 — Too few key_results
@@ -141,13 +144,13 @@ validate_goal_response()
 AI returns less than required key results.
 
 ### Fake Response
-
+```json
 {
 "refined_goal": "test",
 "key_results": ["a"],
 "confidence_score": 5
 }
-
+```
 ### Expected Result
 
 3–5 items required.
@@ -165,9 +168,8 @@ Medium
 tests/test_bugs.py::test_bug_too_few_results
 
 Validation used:
-
-validate_goal_response()
-
+` validate_goal_response()
+`
 ---
 
 ## Bug 5 — confidence_score out of range
@@ -177,12 +179,13 @@ validate_goal_response()
 AI returns score outside allowed range.
 
 ### Fake Response
-
+```json
 {
 "refined_goal": "test",
 "key_results": ["a","b","c"],
 "confidence_score": 50
 }
+```
 
 ### Expected Result
 
@@ -200,9 +203,7 @@ Medium
 
 tests/test_bugs.py::test_bug_invalid_confidence
 
-Validation used:
-
-validate_goal_response()
+Validation used: `validate_goal_response()`
 
 ---
 
@@ -214,11 +215,13 @@ AI generates valid goal for nonsense input.
 
 ### Fake Response
 
+```json
 {
-"refined_goal": "Improve typing",
-"key_results": ["practice","speed","accuracy"],
-"confidence_score": 9
+  "refined_goal": "Improve typing",
+  "key_results": ["practice", "speed", "accuracy"],
+  "confidence_score": 9
 }
+```
 
 ### Expected Result
 
@@ -238,11 +241,10 @@ High
 
 ### Detected By
 
-tests/test_bugs.py::test_gibberish_response
+`tests/test_bugs.py::test_gibberish_response
+`
 
-Validation used:
-
-validate_na_response()
+Validation used: `validate_na_response()`
 
 ---
 
@@ -253,23 +255,23 @@ Fake responses are created in:
 Validators/fake_response.py
 
 Example functions:
-
-wrong_type_response()
+`
+**wrong_type_response()
 missing_field_response()
 too_many_key_results()
 too_few_key_results()
 invalid_confidence()
-gibberish_response()
-
+gibberish_response()**
+`
 These responses are passed to validators:
 
-Validators/goal_validator.py
-
+`Validators/goal_validator.py
+`
 Validator functions used:
 
-validate_goal_response()
+`validate_goal_response()
 assert_valid_goal_schema()
-validate_na_response()
+validate_na_response()`
 
 This proves that if the AI returns incorrect data, the tests will fail.
 
@@ -277,14 +279,14 @@ This proves that if the AI returns incorrect data, the tests will fail.
 
 ## Test Coverage Summary
 
-| Bug                | Schema | Validator | Bug Test |
-| ------------------ | ------ | --------- | -------- |
-| Wrong type         | ✅      | ✅         | ✅        |
-| Missing field      | ✅      | ✅         | ✅        |
-| Too many results   | -      | ✅         | ✅        |
-| Too few results    | -      | ✅         | ✅        |
-| Confidence range   | -      | ✅         | ✅        |
-| Gibberish response | -      | ✅         | ✅        |
+| Bug                | Schema | Validations | Bug Test |
+| ------------------ | ------ |-------------| -------- |
+| Wrong type         | ✅      | ✅           | ✅        |
+| Missing field      | ✅      | ✅           | ✅        |
+| Too many results   | -      | ✅           | ✅        |
+| Too few results    | -      | ✅           | ✅        |
+| Confidence range   | -      | ✅           | ✅        |
+| Gibberish response | -      | ✅           | ✅        |
 
 ---
 
@@ -297,4 +299,4 @@ The automated test suite correctly detects invalid AI responses using:
 * Fake response simulation
 * Bug-specific tests
 
-This ensures the system remains reliable even if the AI returns incorrect or malformed output.
+**This ensures the system remains reliable even if the AI returns incorrect or malformed output.**
