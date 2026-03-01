@@ -87,3 +87,5 @@ def test_profanity_goal(coach):
     )
 
     assert result["confidence_score"] <= 3
+    assert  result["key_results"] == 'NA'
+    assert result["refined_goal"] == 'NA'
