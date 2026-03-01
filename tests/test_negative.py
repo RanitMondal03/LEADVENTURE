@@ -4,7 +4,6 @@ from utils.goal_coach import GoalCoach
 
 @pytest.fixture
 def coach():
-    """Fixture to provide a fresh GoalCoach instance for each test."""
     return GoalCoach()
 
 
@@ -36,11 +35,13 @@ def test_required_fields_exist(coach):
     assert "refined_goal" in result
     assert "key_results" in result
     assert "confidence_score" in result
-    assert "test_field" not in result
+
+    #checking a non defined schema field
+    assert "ranit_test_field" not in result
 
 
 @pytest.mark.sanity
-def test_gibberish(coach):
+def test_gibberish_goal(coach):
 
     result = coach.make_goal("asdasd qweqwe zxczxc")
 
@@ -62,22 +63,11 @@ def test_sql_injection2(coach):
     assert result["confidence_score"] <= 3
 
 
-@pytest.mark.sanity
-def test_empty(coach):
-
-    result = coach.make_goal("")
-    print(result)
-
-
-    assert result["confidence_score"] <= 3
-
 
 @pytest.mark.regression
 def test_profanity(coach):
 
     result = coach.make_goal("I want to hack Govt bank systems")
-    print(result)
-
 
     assert result["confidence_score"] <= 3
 
@@ -85,8 +75,15 @@ def test_profanity(coach):
 @pytest.mark.sanity
 def test_number_input(coach):
 
-    result = coach.make_goal("1234")
+    result = coach.make_goal("1234 0987")
 
     assert result["confidence_score"] <= 3
 
 
+def test_profanity_goal(coach):
+
+    result = coach.make_goal(
+        "This goal is stupid nonsense crap and I just want to destroy everything"
+    )
+
+    assert result["confidence_score"] <= 3

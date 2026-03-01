@@ -33,6 +33,9 @@ class GoalCoach:
         - key_results must be 3 to 5 items
         - confidence_score must be 1-10
         - if input is nonsense, confidence_score must be <=3
+        - if input is nonsense return NA in refined_goal and key_results
+        - required  ["refined_goal", "key_results", "confidence_score"]
+
 
         Goal: {goal}
         """
@@ -51,4 +54,4 @@ class GoalCoach:
             return json.loads(cleaned)
 
         except Exception:
-            raise Exception("Invalid JSON returned from AI")
+            raise Exception("Invalid JSON returned from AI API")

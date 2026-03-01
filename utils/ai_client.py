@@ -3,19 +3,14 @@ import time
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# this fnc helps us to load env variables from .env
 load_dotenv()
 
 
 class AIClient:
 
     def __init__(self, base_url: str | None = None, model: str | None = None):
-        """Initialize the AI client.
 
-        Args:
-            base_url: URL of the AI endpoint (will also read AI_BASE_URL env variable).
-            model: Model identifier to use (will also read AI_MODEL env variable).
-        """
         API_KEY = os.getenv("HUGGINGFACE_API_KEY")
         if not API_KEY:
             raise ValueError("HUGGINGFACE_API_KEY environment variable not set.")

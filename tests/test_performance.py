@@ -5,7 +5,6 @@ from utils.goal_coach import GoalCoach
 
 @pytest.fixture
 def coach():
-    """Fixture to provide a fresh GoalCoach instance for each test."""
     return GoalCoach()
 
 
@@ -14,8 +13,8 @@ def test_response_time(coach):
 
     start = time.time()
 
-    response = coach.make_goal("Improve sales")
-
+    response = coach.make_goal("I want to learn Piano")
+    assert response is not None
 
     end = time.time()
 

@@ -6,23 +6,7 @@ from utils.goal_coach import GoalCoach
 
 @pytest.fixture
 def coach():
-    """Fixture to provide a fresh GoalCoach instance for each test."""
     return GoalCoach()
-
-
-@pytest.mark.smoke
-def test_schema_validation(coach):
-    result = coach.make_goal("I want to improve in MATHS")
-    try:
-        validate(instance=result, schema=schema)
-    except ValidationError as e:
-        assert False, (
-            f"Schema validation failed!\n"
-            f"Field   : {' -> '.join(str(p) for p in e.absolute_path)}\n"
-            f"Message : {e.message}\n"
-            f"Expected: {e.schema}\n"
-            f"Actual  : {e.instance}"
-        )
 
 
 schema = {
@@ -43,3 +27,20 @@ schema = {
     },
     "required": ["refined_goal", "key_results", "confidence_score"]
 }
+
+
+@pytest.mark.smoke
+def test_schema_validation(coach):
+    result = coach.make_goal("I want to improve in MATHS")
+    try:
+        validate(instance=result, schema=schema)
+    except ValidationError as e:
+        assert False, (
+            f"Schema validation failed!\n"
+            f"Field   : {' -> '.join(str(p) for p in e.absolute_path)}\n"
+            f"Message : {e.message}\n"
+            f"Expected: {e.schema}\n"
+            f"Actual  : {e.instance}"
+        )
+
+
